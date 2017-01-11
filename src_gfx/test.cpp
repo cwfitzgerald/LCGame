@@ -1,5 +1,5 @@
 #include <iostream>
 
-extern "C" void HelloWorld() {
+extern "C" __declspec(dllexport) void HelloWorld() {
 	std::cout << "Hello World!\n";
 }

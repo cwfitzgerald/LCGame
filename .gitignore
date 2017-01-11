@@ -7,3 +7,9 @@
 libgfx.dll
 libgfx.so
 obj/
+
+# MSVC
+.vs/
+*.db
+*.opendb
+*.user
