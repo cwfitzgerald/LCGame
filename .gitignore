@@ -1,7 +1,9 @@
 # Python stuff
 *.pyc
 *.pyx
+*__pycache__*
 
 # Binary
-bin/
+libgfx.dll
+libgfx.so
 obj/
