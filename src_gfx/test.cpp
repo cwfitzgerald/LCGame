@@ -1,5 +1,7 @@
+#include "util/dllexport.hpp"
+
 #include <iostream>
 
-extern "C" __declspec(dllexport) void HelloWorld() {
+extern "C" LCG_DLLEXPORT void HelloWorld() {
 	std::cout << "Hello World!\n";
 }
