@@ -11,7 +11,7 @@ def parseMapFile(mapName):
 			mapCordArray.append([[blockType, int(xCord), int(yCord)] for blockType, xCord, yCord in [[element.strip() for element in line] for line in [line.split(',') for line in f]]])	
 			return mapCordArray
 			
-#This code didnt freaking work...........took me 2 hours to realise that >_<
+		#This code didnt freaking work...........took me 2 hours to realise that >_<
 			# for line in f:
 			# 	for x in line.split(","):
 			# 		x.strip()
@@ -22,8 +22,8 @@ def parseMapFile(mapName):
 					#tempLineArray.append(x)
 				#mapCordArray.append(tempLineArray)
 			
-#All of this is to make sure that I'm giving the map name correctly
-#If not, it returns false, []
+		#All of this is to make sure that I'm giving the map name correctly
+		#If not, it returns false, []
 	if os.path.exists(mapName):
 		actualParsingOfFile(mapName)
 		parseSucceed = True
@@ -39,17 +39,16 @@ def parseMapFile(mapName):
 	return parseSucceed, mapCordArray
 
 def saveMapFile(mapName, mapCordArray):
-	print(mapCordArray)
 	#with open(mapName, "w") as f:
-	# for x in mapCordArray:
-	# 	tempArrayforLine =[]
-	# 	for i in x:
-	# 		for y in i:
-	# 			print(i)
-	# 			tempArrayforLine.append(i)
+	for x in mapCordArray:
+		for i in x:
+			for blockType, xCord, yCord in i:
+				print("%s,%i,%i \n" % (blockType, xCord, yCord))
+			#f.write("%s,%i,%i,%i \n" % (filename, elo, wins, losses))
+		#tempArrayforLine.append(i)
 			
-	# 		#f.write("%s,%i,%i \n" % (blockType, xCord, yCord))
-	# 	print(tempArrayforLine)
+			#f.write("%s,%i,%i \n" % (blockType, xCord, yCord))
+		#print(tempArrayforLine)
 
 if __name__ == '__main__':
 	# mapCordArray = []
@@ -69,5 +68,5 @@ if __name__ == '__main__':
 	temp2 = []
 
 	print(parseMapFile("map2.txt"))
-
-	# saveMapFile("map2.txt", temp2)
+	temp, temp2 = parseMapFile("map2.txt")
+	saveMapFile("map2.txt", temp2)
