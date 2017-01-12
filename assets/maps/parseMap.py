@@ -39,11 +39,13 @@ def parseMapFile(mapName):
 	return parseSucceed, mapCordArray
 
 def saveMapFile(mapName, mapCordArray):
-	with open(mapName, "w") as f:
-		for x in mapCordArray:
-			print(x)
-			for blockType, xCord, yCord in x:
-				print("%s,%i,%i \n" % (blockType, xCord, yCord))
+	#with open(mapName, "w") as f:
+	#print([item for sublist in mapCordArray for item in sublist])
+	for x in mapCordArray:
+		print(x)
+		for item in x:
+			print(item)
+	 		#print("%s,%i,%i \n" % (blockType, xCord, yCord))
 
 			#f.write("%s,%i,%i,%i \n" % (filename, elo, wins, losses))
 
@@ -52,6 +54,5 @@ if __name__ == '__main__':
 	temp = 0
 	temp2 = []
 
-	temp, temp2 = parseMapFile("map1test.txt")
-	print(temp2)
-	saveMapFile("map1test.txt", temp2)
+	temp, temp2 = parseMapFile("thinngs.txt")
+	saveMapFile("thinngs.txt", temp2)
