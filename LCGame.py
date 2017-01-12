@@ -1,8 +1,6 @@
-from src.test import *
+import src.graphics
 from src.mainLoop import *
 
-
 if __name__ == "__main__":
-	HelloWorld();
+	graphics.helloWorld();
 	mainLoop();
-
