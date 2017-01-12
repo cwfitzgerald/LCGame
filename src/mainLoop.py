@@ -8,12 +8,7 @@ if (platform.system() == "Linux"):
 elif (platform.system() == "Windows"):
 	gfx_lib = ctypes.CDLL(os.path.join(os.getcwd(), "libgfx.dll"))
 
-
 def mainLoop():
-
 	gfx_lib.SetupRenderer();
-
-
-
 	gfx_lib.DestroyRenderer();
 
