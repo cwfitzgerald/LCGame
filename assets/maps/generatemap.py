@@ -26,11 +26,11 @@ if __name__ == '__main__':
 
 	if os.path.exists(CurrentDirectory + "\%s" % (filename)):
 		if input("Are you sure? This will overwrite that file. [y,n]\n") == "y":
-			makeTheStuffInMapFile(blockType)
+			makeTheStuffInMapFile(filename, blockType)
 		else:
 			print("kk, I'll keep that alone.\n")
 			quit()
 	else:
 		print("No File found, I'll make you one though! =D\n")
-		makeTheStuffInMapFile(blockType)
+		makeTheStuffInMapFile(filename, blockType)
 

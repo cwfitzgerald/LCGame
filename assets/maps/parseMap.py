@@ -8,7 +8,7 @@ def parseMapFile(mapName):
 	def actualParsingOfFile(filepath):
 		tempLineArray = []
 		with open(filepath, "r") as f: 
-			mapCordArray.append([[blockType, int(xCord), int(yCord)] for blockType, xCord, yCord in [[element.strip() for element in line] for line in [line.split(',') for line in f]]])	
+			mapCordArray = [[blockType, int(xCord), int(yCord)] for blockType, xCord, yCord in [[element.strip() for element in line] for line in [line.split(',') for line in f]]]	
 			return mapCordArray
 			
 		#This code didnt freaking work...........took me 2 hours to realise that >_<
@@ -25,50 +25,33 @@ def parseMapFile(mapName):
 		#All of this is to make sure that I'm giving the map name correctly
 		#If not, it returns false, []
 	if os.path.exists(mapName):
-		actualParsingOfFile(mapName)
+		mapCordArray = actualParsingOfFile(mapName)
 		parseSucceed = True
 	#This might be entirely Redundent Checkbacklater
 	elif os.path.exists(CurrentDirectory + "\%s" % (mapName)):
-		actualParsingOfFile(CurrentDirectory + "\%s" % (mapName))
+		mapCordArray = actualParsingOfFile(CurrentDirectory + "\%s" % (mapName))
 		parseSucceed = True
 	elif os.path.exists(CurrentDirectory + "\%s.txt" % (mapName)):
-		actualParsingOfFile(CurrentDirectory + "\%s.txt" % (mapName))
+		mapCordArray = actualParsingOfFile(CurrentDirectory + "\%s.txt" % (mapName))
 		parseSucceed = True
 	else:
 		return parseSucceed, mapCordArray
 	return parseSucceed, mapCordArray
 
 def saveMapFile(mapName, mapCordArray):
-	#with open(mapName, "w") as f:
-	for x in mapCordArray:
-		for i in x:
-			for elemet in i:
-				for blockType, xCord, yCord in elemet:
-					print("%s,%i,%i \n" % (blockType, xCord, yCord))
+	with open(mapName, "w") as f:
+		for x in mapCordArray:
+			print(x)
+			for blockType, xCord, yCord in x:
+				print("%s,%i,%i \n" % (blockType, xCord, yCord))
 
 			#f.write("%s,%i,%i,%i \n" % (filename, elo, wins, losses))
-		#tempArrayforLine.append(i)
-			
-			#f.write("%s,%i,%i \n" % (blockType, xCord, yCord))
-		#print(tempArrayforLine)
 
 if __name__ == '__main__':
-	# mapCordArray = []
-	# tempLineArray = []
-	# with open("map2.txt", "r") as f: 
-	# 	for line in f:
-	# 		for x in line.split(","):
-	# 			x.strip()
-	# 			#I need to remove the " \n" but this no work at the moment
-	# 			if x.find(" \\n", 0) > -1:
-	# 				x = x.replace(" \\n", "")
-
-	# 			tempLineArray.append(x)
-	# 		mapCordArray.append(tempLineArray)
 
 	temp = 0
 	temp2 = []
 
-	print(parseMapFile("map2.txt"))
-	temp, temp2 = parseMapFile("map2.txt")
-	saveMapFile("map2.txt", temp2)
+	temp, temp2 = parseMapFile("map1test.txt")
+	print(temp2)
+	saveMapFile("map1test.txt", temp2)

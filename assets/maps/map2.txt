@@ -1,9 +1,0 @@
-things,0,0 
-things,1,0 
-things,2,0 
-things,3,0 
-things,4,0 
-things,5,0 
-things,6,0 
-things,7,0 
-things,8,0 
