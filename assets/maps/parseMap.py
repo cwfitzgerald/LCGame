@@ -38,16 +38,19 @@ def parseMapFile(mapName):
 		return parseSucceed, mapCordArray
 	return parseSucceed, mapCordArray
 
+#FUCK IT...I dont know how to make it work so here is something that doesnt work...but kinda does something
 def saveMapFile(mapName, mapCordArray):
-	#with open(mapName, "w") as f:
-	#print([item for sublist in mapCordArray for item in sublist])
-	for x in mapCordArray:
-		print(x)
-		for item in x:
-			print(item)
-	 		#print("%s,%i,%i \n" % (blockType, xCord, yCord))
+	with open("temp.txt", "w") as f:
+		for x in mapCordArray:
+			tempstring =''.join(str(e) for e in x)
+			print(tempstring)
+			f.write(tempstring + "\n")
+			#Why doesnt this work? NO IDEA. I'm giving you an array [America, 0, 0] can you not parse that? Fine, then how do I tell you
+			#what each element is? NO IDEA. How do I phrase this to ask google?
+			# for item in x:
+	 	# 		print("%s,%i,%i \n" % (blockType, xCord, yCord))
 
-			#f.write("%s,%i,%i,%i \n" % (filename, elo, wins, losses))
+			# f.write("%s,%i,%i,%i \n" % (blockType, xCord, yCord, losses))
 
 if __name__ == '__main__':
 
