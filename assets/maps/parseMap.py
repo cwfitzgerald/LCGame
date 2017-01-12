@@ -42,8 +42,10 @@ def saveMapFile(mapName, mapCordArray):
 	#with open(mapName, "w") as f:
 	for x in mapCordArray:
 		for i in x:
-			for blockType, xCord, yCord in i:
-				print("%s,%i,%i \n" % (blockType, xCord, yCord))
+			for elemet in i:
+				for blockType, xCord, yCord in elemet:
+					print("%s,%i,%i \n" % (blockType, xCord, yCord))
+
 			#f.write("%s,%i,%i,%i \n" % (filename, elo, wins, losses))
 		#tempArrayforLine.append(i)
 			
