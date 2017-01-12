@@ -6,6 +6,11 @@
 # Binary
 libgfx.dll
 libgfx.so
+*.dll
+*.exp
+*.ilk
+*.lib
+*.pdb
 obj/
 
 # MSVC
@@ -13,3 +18,6 @@ obj/
 *.db
 *.opendb
 *.user
+
+# Dependencies
+dependencies/
