@@ -17,6 +17,7 @@ def makeTheStuffInMapFile(filename, blockType):
 				xCord+=1
 			yCord +=1
 
+
 if __name__ == '__main__':
 	
 	filename= input("Map name? (Please add file extension at the end =P)\n")
