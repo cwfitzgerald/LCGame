@@ -14,5 +14,5 @@ def helloWorld():
 def setupRenderer():
 	gfx_lib.SetupRenderer()
 
-def distroyRenderer():
-	gfx_lib.DistroyRenderer();
+def destroyRenderer():
+	gfx_lib.DestroyRenderer();

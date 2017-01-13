@@ -10,6 +10,8 @@ libgfx.so
 *.exp
 *.ilk
 *.lib
+*.iobj
+*.ipdb
 *.pdb
 obj/
 

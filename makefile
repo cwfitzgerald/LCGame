@@ -1,13 +1,13 @@
 CXX := g++
 
 ARG_WARNING := -Wall -Wextra -Wpedantic
-ARG_SHARED  := -fPIC -shared
+ARG_INCLUDE := -Idependencies/include
 ARG_DEBUG   := -g -O0
 ARG_RELEASE := -O3
-ARG_LINK    := 
+ARG_LINK    := -Ldependencies/lib64 -lSDL2 -lGL -lGLEW
 
-DEBUG_ARGS    = $(ARG_WARNING) $(ARG_SHARED) $(ARG_DEBUG) $(ARG_LINK)
-RELEASE_ARGS  = $(ARG_WARNING) $(ARG_SHARED) $(ARG_RELEASE) $(ARG_LINK)
+DEBUG_ARGS    = $(ARG_WARNING) $(ARG_DEBUG)
+RELEASE_ARGS  = $(ARG_WARNING) $(ARG_RELEASE)
 ARGS = $(DEBUG_ARGS)
 
 MODULE_LIST   := .
@@ -26,10 +26,12 @@ program: $(MODULE_OUTPUT)
 program: libgfx.so
 
 obj/%.o: src_gfx/%.cpp
-	$(CXX) $< $(ARGS) -c -o $@
+	@echo $(CXX) $^
+	@$(CXX) $< $(ARG_WARNING) $(ARGS) $(ARG_INCLUDE) -fPIC -c -o $@
 
 libgfx.so: $(OBJ_LIST)
-	g++ $? $(ARGS) -o $@
+	@echo Linking $@
+	@$(CXX) $^ $(ARG_WARNING) $(ARGS) $(ARG_LINK) -shared -o $@
 
 define make-obj-dirs
 $1:
