@@ -41,16 +41,10 @@ def parseMapFile(mapName):
 #FUCK IT...I dont know how to make it work so here is something that doesnt work...but kinda does something
 def saveMapFile(mapName, mapCordArray):
 	with open("temp.txt", "w") as f:
-		for x in mapCordArray:
-			tempstring =''.join(str(e) for e in x)
-			print(tempstring)
-			f.write(tempstring + "\n")
+		for blockType, xCord, yCord in mapCordArray:
 			#Why doesnt this work? NO IDEA. I'm giving you an array [America, 0, 0] can you not parse that? Fine, then how do I tell you
 			#what each element is? NO IDEA. How do I phrase this to ask google?
-			# for item in x:
-	 	# 		print("%s,%i,%i \n" % (blockType, xCord, yCord))
-
-			# f.write("%s,%i,%i,%i \n" % (blockType, xCord, yCord, losses))
+			f.write("%s,%i,%i \n" % (blockType, xCord, yCord))
 
 if __name__ == '__main__':
 
@@ -58,4 +52,5 @@ if __name__ == '__main__':
 	temp2 = []
 
 	temp, temp2 = parseMapFile("thinngs.txt")
+	print(temp2)
 	saveMapFile("thinngs.txt", temp2)
