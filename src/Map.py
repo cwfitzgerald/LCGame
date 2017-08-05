@@ -1,4 +1,3 @@
-
 import os
 import math
 
@@ -10,6 +9,37 @@ class Map(object):
 		self.fileLocation = "/{}".format(mapName)
 		self.mapContents = []
 
+
+	def LoadMap(self, mapName, location="Default"):
+		cwd = os.path.dirname(os.path.realpath(__file__))
+		if location == "Default":
+			mapFolder = cwd.replace("src","assets")
+			mapFolder += "/maps"
+		if not os.path.exists(mapFolder):
+			print("File Doesn't Exist.")
+			return False
+		
+		with open((mapFolder + "/%s"%mapName), "r") as f:
+			metadata = f.readline()
+			metadata = metadata.split(",")
+			self.xSize = metadata[0]
+			self.ySize = metadata[1]
+			self.filename = metadata[2]
+			
+			yLineCounter = 0 
+			temporaryMapContents=[]
+			for line in f:
+				#check to see if the line has as many chars as the meta data suggests
+				#no idea why len adds one..oh wait maybe the new line \n
+				if len(line)+1 == self.xSize:
+					print(line)
+					temporaryMapContents.append(line)
+					yLineCounter+=1
+			print(temporaryMapContents)
+
+
+
+	#check to see if file already exists, ask to overwrite
 	def SaveMap(self, location="Default"):
 		cwd = os.path.dirname(os.path.realpath(__file__))
 		if location == "Default":
@@ -54,9 +84,10 @@ class Map(object):
 
 	
 level1 = Map("level1", 50,25)
-level1.GenerateBasicFlatMap("a","g")
+#level1.GenerateBasicFlatMap("a","g")
 print(level1.mapContents)
-level1.SaveMap()
+#level1.SaveMap()
+level1.LoadMap("level1")
 
 
 
