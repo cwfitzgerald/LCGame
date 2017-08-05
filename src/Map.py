@@ -9,7 +9,8 @@ class Map(object):
 		self.fileLocation = "/{}".format(mapName)
 		self.mapContents = []
 
-
+	#TODO Add some error handling to exit if load fails
+	#add support for files outside maps folder
 	def LoadMap(self, mapName, location="Default"):
 		cwd = os.path.dirname(os.path.realpath(__file__))
 		if location == "Default":
@@ -19,32 +20,37 @@ class Map(object):
 			print("File Doesn't Exist.")
 			quit()
 		with open((mapFolder + "/%s"%mapName), "r") as f:
+			#Parsing first line
 			metadata = f.readline()
 			metadata = metadata.split(",")
-			self.xSize = metadata[0]
-			self.ySize = metadata[1]
-			self.filename = metadata[2]
+			TempxSize = metadata[0]
+			TempySize = metadata[1]
+			Tempfilename = metadata[2]
 
-
+			#Parsing Map Contents
 			yLineCounter = 0 
 			temporaryMapContents=[]
 			for line in f:
 				#check to see if the line has as many chars as the meta data suggests
 				#no idea why len adds one..oh wait maybe the new line \n
-				if (len(line)-1) == int(self.xSize):
+				if (len(line)-1) == int(TempxSize):
 					for x in line:
 						if x != "\n":
 							temporaryMapContents.append(x)
 				else:
-					print("Problem loading map, line #%i is %i chars not %i."%(yLineCounter,len(line-1),int(self.xSize)))
+					print("Problem loading map, line #%i is %i chars not %i."%(yLineCounter,len(line-1),int(TempxSize)))
 					quit()
 				yLineCounter+=1
+			f.close()
 
-			if yLineCounter != int(self.ySize):
-				print("Problem loading map, there should be %i map rows, there are %i."%(int(self.ySize), yLineCounter))
-			#print(yLineCounter)
-			#print(temporaryMapContents)
-			self.mapContents=temporaryMapContents
+		if yLineCounter != int(TempySize):
+			print("Problem loading map, there should be %i map rows, there are %i."%(int(TempySize), yLineCounter))
+
+		#We should be confident that everything is right by here
+		self.xSize = TempxSize
+		self.ySize = TempySize
+		self.filename = Tempfilename
+		self.mapContents=temporaryMapContents
 
 
 
