@@ -17,25 +17,35 @@ class Map(object):
 			mapFolder += "/maps"
 		if not os.path.exists(mapFolder):
 			print("File Doesn't Exist.")
-			return False
-		
+			quit()
 		with open((mapFolder + "/%s"%mapName), "r") as f:
 			metadata = f.readline()
 			metadata = metadata.split(",")
 			self.xSize = metadata[0]
 			self.ySize = metadata[1]
 			self.filename = metadata[2]
-			
+
+
 			yLineCounter = 0 
 			temporaryMapContents=[]
 			for line in f:
 				#check to see if the line has as many chars as the meta data suggests
 				#no idea why len adds one..oh wait maybe the new line \n
-				if len(line)+1 == self.xSize:
-					print(line)
-					temporaryMapContents.append(line)
-					yLineCounter+=1
-			print(temporaryMapContents)
+				if (len(line)-1) == int(self.xSize):
+					for x in line:
+						if x != "\n":
+							temporaryMapContents.append(x)
+				else:
+					print("Problem loading map, line #%i is %i chars not %i."%(yLineCounter,len(line-1),int(self.xSize)))
+					quit()
+				yLineCounter+=1
+
+			if yLineCounter != int(self.ySize):
+				print("Problem loading map, there should be %i map rows, there are %i."%(int(self.ySize), yLineCounter))
+			#print(yLineCounter)
+			#print(temporaryMapContents)
+			self.mapContents=temporaryMapContents
+
 
 
 
@@ -56,12 +66,15 @@ class Map(object):
 			
 			#blocks
 			blockString = ''
+			stringCounter = 0
 			for index, value in enumerate(self.mapContents):
 				blockString += value
-				if index%self.xSize == 0:
+				stringCounter+=1 
+				if stringCounter==self.xSize:
 					f.write(blockString)
 					f.write("\n")
 					blockString = ''
+					stringCounter = 0
 
 
 	def GenerateSingleBlockMap(self, blocktype):
@@ -83,11 +96,11 @@ class Map(object):
 				self.mapContents.append(block)
 
 	
-level1 = Map("level1", 50,25)
-#level1.GenerateBasicFlatMap("a","g")
-print(level1.mapContents)
+#level1 = Map("level1", 4,4)
+#level1.GenerateSingleBlockMap("a")
 #level1.SaveMap()
-level1.LoadMap("level1")
+#level1.LoadMap("level1")
+#print(level1.mapContents)
 
 
 
