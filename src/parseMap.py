@@ -1,3 +1,5 @@
+#No longer in use... use Map.py
+
 import os
 
 def parseMapFile(mapName):
