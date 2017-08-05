@@ -1,11 +1,4 @@
-import os
-#Howdy! This is a basic script that makes a 10x10 map, filled with one block.
-#To do, make map size custom
-#Maybe add a random, so block is random at each point?
-#Make better name for function
 
-#Function that writes the given a filename blocktype. WARNING, b/c of w+ it will
-#OVERWRITE if called...so yeah
 import os
 import math
 
