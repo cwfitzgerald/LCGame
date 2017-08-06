@@ -3,12 +3,15 @@ import math
 import random
 
 class Map(object):
+
+
 	def __init__(self, mapName, xSize, ySize):
-		self.xSize = xSize
-		self.ySize = ySize
+		self.xSize = int(xSize)
+		self.ySize = int(ySize)
 		self.filename = mapName
 		self.fileLocation = "/{}".format(mapName)
 		self.mapContents = []
+		self.xymapContents = []
 
 	#TODO Add some error handling to exit if load fails
 	#add support for files outside maps folder
@@ -24,8 +27,8 @@ class Map(object):
 			#Parsing first line
 			metadata = f.readline()
 			metadata = metadata.split(",")
-			TempxSize = metadata[0]
-			TempySize = metadata[1]
+			TempxSize = int(metadata[0])
+			TempySize = int(metadata[1])
 
 			#Parsing Map Contents
 			yLineCounter = 0 
@@ -51,6 +54,7 @@ class Map(object):
 		self.ySize = TempySize
 		#self.filename = Tempfilename
 		self.mapContents=temporaryMapContents
+		self.xymapContents = self.ConvertMapContentsToXYValue(self.xSize,self.ySize,self.mapContents)
 
 
 
@@ -82,6 +86,26 @@ class Map(object):
 					blockString = ''
 					stringCounter = 0
 
+	#def ConvertMapContentsToXYValue(self, x=self.xSize,y=self.ySize, array=self.mapContents):
+	def ConvertMapContentsToXYValue(self, x,y, array):
+		newArray =[]
+		xCounter = 0
+		yCounter = 0
+		if len(array) == x*y:
+			for value in array:
+				if xCounter == x-1:
+					newArray.append([xCounter,yCounter,value])
+					xCounter = 0
+					yCounter += 1
+				else:
+					newArray.append([xCounter,yCounter,value])
+					xCounter+=1
+			return newArray
+		else:
+			print("Error, array passed is incorrect")
+			print("x {}, y {}".format(x,y))
+			print(len(array))
+
 
 	def GenerateSingleBlockMap(self, blocktype):
 		for x in range(self.xSize):
@@ -100,6 +124,7 @@ class Map(object):
 			
 			for block in blocktype:
 				self.mapContents.append(block)
+
 	def GenerateRandomMap(self):
 		blockThreshhold = 70
 		for y in range(self.ySize):
@@ -110,37 +135,14 @@ class Map(object):
 					self.mapContents.append(1)
 				else:
 					self.mapContents.append(0)
-
+		self.xymapContents = self.ConvertMapContentsToXYValue(self.xSize,self.ySize,self.mapContents)
 
 	def NumberOfNeighbours(self, place):
 		nieghbourScore = 0
 		place = int(place)
-		y = int(self.ySize)
+		y = self.ySize
 		#if mapContents[place] != 
-		if (place - y - 1) >= 0:
-			nieghbourScore += int(self.mapContents[place - y - 1])
-			print("1")
-		if (place - y) >= 0:
-			nieghbourScore += int(self.mapContents[place- y])
-			print("2")
-		if (place - y + 1) >= 0:
-			nieghbourScore += int(self.mapContents[place - y + 1])
-			print("3")
-		if (place -1) >=0:
-			nieghbourScore += int(self.mapContents[place -1])
-			print("4")
-		if (place + 1) <= len(self.mapContents) and (place + 1)%y !=0:
-			nieghbourScore += int(self.mapContents[place + 1])
-			print("5")
-		if (place + y - 1) <= len(self.mapContents) and (place + y - 1)%y !=0:
-			nieghbourScore += int(self.mapContents[place + y - 1])
-			print("6")
-		if (place + y) <= len(self.mapContents):
-			nieghbourScore += int(self.mapContents[place + y])
-			print("7")
-		if (place + y+1) <= len(self.mapContents):
-			nieghbourScore += int(self.mapContents[place + y+1])
-			print("8")
+		#TODO Using xymapContents which is [[x,y,contents], ...] find Neighbours 
 		return nieghbourScore
 
 	def SmoothMap(self, times=4):
@@ -158,10 +160,11 @@ class Map(object):
 	
 level1 = Map("level1", 10,10)
 #level1.LoadMap("level1")
-#print(level1.mapContents)
+
 level1.GenerateRandomMap()
+
 #level1.SmoothMap(1)
-print(level1.NumberOfNeighbours(0))
+
 #print(level1.mapContents)
 level1.SaveMap()
 
