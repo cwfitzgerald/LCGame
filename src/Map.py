@@ -1,5 +1,6 @@
 import os
 import math
+import random
 
 class Map(object):
 	def __init__(self, mapName, xSize, ySize):
@@ -25,7 +26,6 @@ class Map(object):
 			metadata = metadata.split(",")
 			TempxSize = metadata[0]
 			TempySize = metadata[1]
-			Tempfilename = metadata[2]
 
 			#Parsing Map Contents
 			yLineCounter = 0 
@@ -49,7 +49,7 @@ class Map(object):
 		#We should be confident that everything is right by here
 		self.xSize = TempxSize
 		self.ySize = TempySize
-		self.filename = Tempfilename
+		#self.filename = Tempfilename
 		self.mapContents=temporaryMapContents
 
 
@@ -74,7 +74,7 @@ class Map(object):
 			blockString = ''
 			stringCounter = 0
 			for index, value in enumerate(self.mapContents):
-				blockString += value
+				blockString += str(value)
 				stringCounter+=1 
 				if stringCounter==self.xSize:
 					f.write(blockString)
@@ -100,13 +100,71 @@ class Map(object):
 			
 			for block in blocktype:
 				self.mapContents.append(block)
+	def GenerateRandomMap(self):
+		blockThreshhold = 70
+		for y in range(self.ySize):
+			for x in range(self.xSize):
+				if x == 0 or x == self.xSize-1 or y == 0 or y == self.ySize-1:
+					self.mapContents.append(1)
+				elif random.randint(0,99) > blockThreshhold:
+					self.mapContents.append(1)
+				else:
+					self.mapContents.append(0)
+
+
+	def NumberOfNeighbours(self, place):
+		nieghbourScore = 0
+		place = int(place)
+		y = int(self.ySize)
+		#if mapContents[place] != 
+		if (place - y - 1) >= 0:
+			nieghbourScore += int(self.mapContents[place - y - 1])
+			print("1")
+		if (place - y) >= 0:
+			nieghbourScore += int(self.mapContents[place- y])
+			print("2")
+		if (place - y + 1) >= 0:
+			nieghbourScore += int(self.mapContents[place - y + 1])
+			print("3")
+		if (place -1) >=0:
+			nieghbourScore += int(self.mapContents[place -1])
+			print("4")
+		if (place + 1) <= len(self.mapContents) and (place + 1)%y !=0:
+			nieghbourScore += int(self.mapContents[place + 1])
+			print("5")
+		if (place + y - 1) <= len(self.mapContents) and (place + y - 1)%y !=0:
+			nieghbourScore += int(self.mapContents[place + y - 1])
+			print("6")
+		if (place + y) <= len(self.mapContents):
+			nieghbourScore += int(self.mapContents[place + y])
+			print("7")
+		if (place + y+1) <= len(self.mapContents):
+			nieghbourScore += int(self.mapContents[place + y+1])
+			print("8")
+		return nieghbourScore
+
+	def SmoothMap(self, times=4):
+		for x in range(times):
+			for index, value in enumerate(self.mapContents):
+				if self.NumberOfNeighbours(value) >= 4:
+					self.mapContents[index] = 1
+				else:
+					self.mapContents[index]=0
+
+
+
+
 
 	
-#level1 = Map("level1", 4,4)
-#level1.GenerateSingleBlockMap("a")
-#level1.SaveMap()
+level1 = Map("level1", 10,10)
 #level1.LoadMap("level1")
 #print(level1.mapContents)
+level1.GenerateRandomMap()
+#level1.SmoothMap(1)
+print(level1.NumberOfNeighbours(0))
+#print(level1.mapContents)
+level1.SaveMap()
+
 
 
 
