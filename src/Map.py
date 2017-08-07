@@ -1,6 +1,7 @@
 import os
 import math
 import random
+import sys
 
 class Map(object):
 
@@ -106,7 +107,6 @@ class Map(object):
 			print("x {}, y {}".format(x,y))
 			print(len(array))
 
-
 	def GenerateSingleBlockMap(self, blocktype):
 		for x in range(self.xSize):
 			for y in range(self.ySize):
@@ -125,8 +125,7 @@ class Map(object):
 			for block in blocktype:
 				self.mapContents.append(block)
 
-	def GenerateRandomMap(self):
-		blockThreshhold = 70
+	def GenerateRandomMap(self, blockThreshhold = 50, smooth = True, times=4,numberOfNeighboursToKeepAlive=5 ):
 		for y in range(self.ySize):
 			for x in range(self.xSize):
 				if x == 0 or x == self.xSize-1 or y == 0 or y == self.ySize-1:
@@ -135,37 +134,49 @@ class Map(object):
 					self.mapContents.append(1)
 				else:
 					self.mapContents.append(0)
-		self.xymapContents = self.ConvertMapContentsToXYValue(self.xSize,self.ySize,self.mapContents)
+		if smooth:
+			self.xymapContents = self.ConvertMapContentsToXYValue(self.xSize,self.ySize,self.mapContents)
+			self.SmoothMap(times,numberOfNeighboursToKeepAlive)
 
-	def NumberOfNeighbours(self, place):
+	def NumberOfNeighbours(self, xPoint,yPoint, size=1):
 		nieghbourScore = 0
-		place = int(place)
-		y = self.ySize
-		#if mapContents[place] != 
-		#TODO Using xymapContents which is [[x,y,contents], ...] find Neighbours 
+		searchArray = []
+		#TODO Make more effiecent, repeating myself here
+		searchArray.append([[xPoint-1,yPoint+1],[xPoint,yPoint+1],[xPoint+1,yPoint+1],
+							[xPoint-1,yPoint],[xPoint+1,yPoint],
+							[xPoint-1,yPoint-1],[xPoint,yPoint-1],[xPoint+1,yPoint-1]])
+
+		#Using xymapContents which is [[x,y,contents], ...] find Neighbours 
+		for x,y,value in self.xymapContents:
+			for i in searchArray:
+				for xSearch, ySearch in i:
+					if x==xSearch and y == ySearch:
+						nieghbourScore += value
 		return nieghbourScore
 
-	def SmoothMap(self, times=4):
-		for x in range(times):
-			for index, value in enumerate(self.mapContents):
-				if self.NumberOfNeighbours(value) >= 4:
-					self.mapContents[index] = 1
+	def SmoothMap(self, times,numberOfNeighboursToKeepAlive):
+		totalIterationOfBlocks = 0
+		for i in range(times):
+			counter =0
+			for x,y, value in self.xymapContents:
+				if self.NumberOfNeighbours(x,y) >= numberOfNeighboursToKeepAlive:
+					self.mapContents[counter] = 1
 				else:
-					self.mapContents[index]=0
+					self.mapContents[counter]=0
+				counter +=1
+				totalIterationOfBlocks += 1
+				if counter % 200 == 0:
+					sys.stdout.write("\rSmoothing...completed:{} out of {}".format(totalIterationOfBlocks,times*self.xSize*self.ySize))
+		sys.stdout.write("\rSmoothing...completed:{} out of {}".format(totalIterationOfBlocks,times*self.xSize*self.ySize))
 
 
 
 
 
-	
-level1 = Map("level1", 10,10)
-#level1.LoadMap("level1")
 
+
+level1 = Map("level1", 25,25)
 level1.GenerateRandomMap()
-
-#level1.SmoothMap(1)
-
-#print(level1.mapContents)
 level1.SaveMap()
 
 
